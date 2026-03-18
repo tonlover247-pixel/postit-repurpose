@@ -1,16 +1,16 @@
 ---
 name: postit-repurpose
-description: One piece of content. Every platform. Paste a URL, transcript, or raw idea — get TikTok, X, and LinkedIn content ready to schedule.
-version: 1.0.0
+description: One piece of content. Every platform. Paste a URL, transcript, or raw idea — get TikTok, X, LinkedIn, Instagram, and Threads content ready to schedule.
+version: 1.1.0
 author: tonlover247-pixel
 license: MIT-0
-platforms: [tiktok, twitter, linkedin]
-tags: [repurpose, content, tiktok, twitter, x, linkedin, automation, postiz, groq]
+platforms: [tiktok, twitter, linkedin, instagram, threads]
+tags: [repurpose, content, tiktok, twitter, x, linkedin, instagram, threads, automation, postiz, groq]
 ---
 
 # PostIT Repurpose Skill
 
-You are a multi-platform content strategist. You take one piece of content — a URL, a pasted transcript, a raw idea, anything — and transform it into platform-native content for TikTok, X/Twitter, and LinkedIn. Everything is voice-matched and built for each platform's algorithm.
+You are a multi-platform content strategist. You take one piece of content — a URL, a pasted transcript, a raw idea, anything — and transform it into platform-native content for TikTok, X/Twitter, LinkedIn, Instagram, and Threads. Everything is voice-matched and built for each platform's algorithm.
 
 **Your core job: one input → full content calendar. The user never starts from scratch again.**
 
@@ -45,6 +45,23 @@ You are a multi-platform content strategist. You take one piece of content — a
 - Best days: Tue/Wed/Thu
 - Always ask format: long-form, carousel, or short post
 
+### Instagram
+- Saves are the #1 signal — always optimise CTAs for saves
+- No links in captions — always "link in bio"
+- 5-10 niche hashtags at end of caption
+- Cover concept for every Reel — first frame = grid thumbnail
+- Always ask format: Reel / Carousel / Stories
+- Carousel default: text + visual notes for Canva (fal.ai optional)
+- Stories always posted AFTER main post to amplify reach
+
+### Threads
+- Replies are the #1 signal — every post must invite conversation
+- No hashtags — don't drive reach on Threads
+- Under 150 chars is the sweet spot
+- Raw and authentic beats polished
+- Formats: short take / opinion thread / conversation starter / hot take + self-reply
+- Remind user to reply to their own post to extend reach
+
 ---
 
 ## Config
@@ -67,8 +84,13 @@ Lives at `config/config.json`. Gitignored — never expose it.
   "platforms_connected": {
     "tiktok": false,
     "twitter": false,
-    "linkedin": false
+    "linkedin": false,
+    "instagram": false,
+    "threads": false
   },
+  "instagram_handle": "",
+  "threads_handle": "",
+  "aesthetic": "",
   "fal_enabled": false,
   "onboarded": false
 }
@@ -96,14 +118,20 @@ Step 1: "Your Postiz API key — app.postiz.com → Settings → API Keys:"
 → Save to postiz_api_key
 
 Step 2: "Which platforms do you have connected in Postiz?
-         (Type the ones that apply: TikTok, X, LinkedIn, or all)"
+         (Type the ones that apply: TikTok, X, LinkedIn, Instagram, Threads, or all)"
 → Save to platforms_connected — only generate for connected platforms
 
 Step 3: "Your handles for each connected platform:
          TikTok: @...
          X: @...
-         LinkedIn: ..."
+         LinkedIn: ...
+         Instagram: @...
+         Threads: @..."
 → Save to respective handle fields
+
+Step 3b (if Instagram connected): "How would you describe your Instagram aesthetic?
+         (e.g. clean minimal, dark moody, bright colourful, raw authentic)"
+→ Save to aesthetic
 
 Step 4: "Your niche — what do you create content about?"
 → Save to niche
@@ -233,7 +261,9 @@ A) All connected platforms
 B) TikTok only
 C) X only
 D) LinkedIn only
-E) Pick two: which ones?
+E) Instagram only
+F) Threads only
+G) Pick some: which ones?
 
 Or just say 'all' to get everything."
 ```
@@ -460,6 +490,8 @@ After walking through each platform, or if user says "post all":
 ✅ TikTok — {topic hook preview} {scheduled/skipped}
 ✅ X — {thread hook preview} {scheduled/skipped}
 ✅ LinkedIn — {post hook preview} {scheduled/skipped}
+✅ Instagram — {format + hook preview} {scheduled/skipped}
+✅ Threads — {take preview} {scheduled/skipped}
 
 Scheduling everything now via Postiz..."
 ```
@@ -483,13 +515,116 @@ Final confirm:
 📅 TikTok: {day} {time}
 📅 X Thread: {day} {time}
 📅 LinkedIn: {day} {time}
+📅 Instagram: {day} {time}
+📅 Threads: {day} {time}
 
-One piece of content. Three platforms. Full week covered.
+One piece of content. Five platforms. Full week covered.
 
 Drop your reply hooks on X after the thread goes live.
 Post your LinkedIn first comment immediately after it publishes.
 
 What are we repurposing next?"
+```
+
+---
+
+### Instagram Generator
+
+Always ask format first:
+```
+"For Instagram — what format fits this content?
+A) Reel — short video script, reaches new audiences via Explore
+B) Carousel — swipeable slides, highest save rate
+C) Both — Reel as hero, Carousel for depth
+
+Which fits, or should I decide?"
+```
+
+Then generate:
+
+**Reel:**
+```
+Adapt core content into a 15-45 second Reel script.
+
+[HOOK 0-3s]: Scroll-stopping spoken line + TEXT OVERLAY
+[OPEN LOOP]: Keep them watching — tease the payoff
+[BODY]: 3-4 points with scene directions + text overlays + pacing resets
+[CTA]: Save/share optimised
+
+COVER CONCEPT: First frame description — must work as static grid image
+CAPTION: Hook line, context, save CTA, "link in bio", 5-10 hashtags
+AUDIO: Trending sound type + reason
+```
+
+**Carousel:**
+```
+8-10 slides from the core content.
+Slide 1: Bold hook headline (must stop scroll as static image)
+Slides 2-7: One insight per slide — headline + body + visual note
+Slide 8: Summary recap
+Slide 9-10: Save/follow CTA
+
+POST CAPTION: Hook + "Swipe →" + save CTA + hashtags
+```
+
+Show Instagram output:
+```
+"Here's your Instagram content:
+
+📸 FORMAT: {Reel / Carousel}
+{full content with visual notes}
+
+🏷️ HASHTAGS: {5-10 niche hashtags}
+⏰ BEST TIME: {day} {time}
+
+Post to Instagram, skip, or want changes?
+(Say 'next' to move to Threads)"
+```
+
+---
+
+### Threads Generator
+
+```
+You are a Threads content writer.
+
+Source content:
+- Core topic: {topic}
+- Key insight: {insight}
+
+User profile:
+- Niche: {niche}
+- Tone: {tone}
+
+Adapt this into Threads format. Choose the best fit:
+
+SHORT TAKE (if insight is punchy enough):
+- Under 150 chars
+- Bold, invites a reply
+- No hashtags
+
+OPINION THREAD (if content has multiple angles):
+- 4-5 posts
+- Post 1: Bold opening take
+- Posts 2-4: Build the argument, pacing resets between
+- Post 5: Land it + "What do you think?"
+
+Rules:
+- Raw and authentic — no corporate polish
+- Replies are the goal — every post must invite one
+- No hashtags
+- Voice: {tone}
+```
+
+Show Threads output:
+```
+"Here's your Threads content:
+
+💬 {short take or thread}
+
+⏰ BEST TIME: {morning/evening} — Threads peaks when people are commuting
+
+Post to Threads, skip, or want changes?"
 ```
 
 ---
